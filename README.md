@@ -1,16 +1,68 @@
-# fluxstore
+# 🛒 FluxStore – Flutter E-Commerce App
 
-A new Flutter project.
+FluxStore is a complete **E-Commerce mobile application** built using **Flutter & Firebase**, offering a clean UI, smooth performance, and real-world features such as product browsing, cart management, favorites, checkout, and order tracking.  
+Designed with clean architecture and scalable folder structure.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## ✨ Features
 
-A few resources to get you started if this is your first Flutter project:
+### 🔐 Authentication
+- Login with email & password  
+- Error handling & validation  
+- Persistent login (Auto-login)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### 🛍 Product Module
+- Browse all products
+- View product details
+- Category filtering
+- Dynamic product images
+- Real-time data updates using Firestore
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### ❤️ Favorites
+- Add / Remove favorites
+- Sync favorites with user account
+
+### 🛒 Shopping Cart
+- Add products to the cart
+- Update quantity
+- Remove items
+- Total price calculation
+
+### 🔍 Advanced Search
+- Real-time product search
+- Search suggestions
+
+### 💳 Checkout & Payments
+- Save credit cards  
+- Address selection  
+- Order placing system  
+
+### 📦 Orders
+- Track order status  
+- Order history
+
+### 🎨 UI / UX
+- Clean responsive UI  
+- Animations  
+- Dark mode support  
+- Multi-language support  
+
+---
+
+## 🛠 Tech Stack (Used Technologies)
+
+- **Flutter (Dart)**  
+- **Firebase Authentication**  
+- **Cloud Firestore**  
+- **Firebase Storage**  
+- **Cloud Messaging (Push Notifications)**  
+- **Provider / BLoC (State Management)**  
+- **Clean Architecture (MVC / MVVM)**  
+- **Responsive Layout**  
+- **Git & GitHub**
+
+---
+
+## 📁 Project Structure
+
