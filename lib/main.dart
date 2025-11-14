@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluxstore/Discover/search_screen.dart';
+import 'package:fluxstore/Discover/found_results.dart';
 
 import 'package:fluxstore/core/router/app_router.dart';
 
@@ -14,18 +14,19 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router
     (
-      //home: SearchScreen(),
+     // home: FoundResults(),
       theme: ThemeData(
         scaffoldBackgroundColor:
             Color(0xffFFFFFF), // 👈 لون الخلفية لكل الصفحات
         // باقي الإعدادات...
         appBarTheme: AppBarTheme(
           backgroundColor: Color(0xffFFFFFF),
+           surfaceTintColor: Color(0xffFFFFFF),
           elevation: 0,
         ),
       ),
       
-      routerConfig: AppRouter.router, // ✅ ربط الراوتر
+    routerConfig: AppRouter.router,//  ✅ ربط الراوتر
 
       debugShowCheckedModeBanner: false,
     );

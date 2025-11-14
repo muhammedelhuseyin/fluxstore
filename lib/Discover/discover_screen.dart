@@ -29,7 +29,8 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
               SearchBarWidget(
                 readonly: true, ontap: () { 
                   context.push('/search');
-                 }, onPressed: () {  },
+                 }, 
+                 onPressed: () {  },
               ),
               Gap(34),
               CategoryCard(

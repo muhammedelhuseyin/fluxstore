@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluxstore/Discover/widgets/custom_back_button.dart';
 import 'package:fluxstore/Discover/widgets/filter_drawer.dart';
 import 'package:fluxstore/Discover/widgets/poplists.dart';
 import 'package:fluxstore/core/helper/app_images.dart';
@@ -39,37 +40,17 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       endDrawerEnableOpenDragGesture: false,
       appBar: AppBar(
-        surfaceTintColor: Color(0xffFFFFFF),
+        
         actions: const [SizedBox.shrink()], // بدلاً من []
 
         automaticallyImplyLeading: false,
 
         title: Padding(
           padding: const EdgeInsets.only(left: 12, top: 12),
-          child: GestureDetector(
-            onTap: () {
-              context.pop();
-            },
-            child: Container(
-              width: 36,
-              height: 36,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.25),
-                        blurRadius: 6,
-                        offset: Offset(0, 2))
-                  ]),
-              child: Icon(
-                Icons.arrow_back_ios_new_outlined,
-                size: 23,
-              ),
-            ),
-          ),
+          child: CustomBackButton(),
         ),
       ),
       body: SingleChildScrollView(
@@ -81,8 +62,9 @@ class _SearchScreenState extends State<SearchScreen> {
               Builder(
                 builder: (context) {
                   return SearchBarWidget(
-                    readonly: false,
-                    ontap: () {},
+                    readonly: true, ontap: () { 
+                  context.push('/FoundResults');
+                 }, 
                     onPressed: () {
                       Scaffold.of(context)
                           .openEndDrawer(); // يفتح الـ Drawer بشكل صحيح

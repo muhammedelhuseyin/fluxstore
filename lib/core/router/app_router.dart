@@ -1,3 +1,4 @@
+import 'package:fluxstore/Discover/found_results.dart';
 import 'package:fluxstore/Discover/search_screen.dart';
 import 'package:fluxstore/Onboarding/onboarding_screen.dart';
 import 'package:fluxstore/layout/main_layout.dart';
@@ -36,6 +37,10 @@ class AppRouter {
       GoRoute(
         path: '/search',
         builder: (context, state) => const SearchScreen(),
+      ),
+      GoRoute(
+        path: '/FoundResults',
+        builder: (context, state) => const FoundResults(),
       ),
       GoRoute(
         path: '/onbording',
