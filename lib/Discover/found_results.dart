@@ -13,6 +13,8 @@ class FoundResults extends StatefulWidget {
 }
 
 class _FoundResultsState extends State<FoundResults> {
+  bool isPressed = false;
+
   RangeValues _priceRange = const RangeValues(10, 80);
   int selectedRating = 0;
   String selectedCategory = "Crop Tops";
@@ -136,6 +138,11 @@ class _FoundResultsState extends State<FoundResults> {
                                 right: 5,
                                 top: 5,
                                 child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      isPressed = !isPressed;
+                                    });
+                                  },
                                   child: Container(
                                     width: 30,
                                     height: 30,
@@ -145,7 +152,9 @@ class _FoundResultsState extends State<FoundResults> {
                                     ),
                                     child: Icon(
                                       Icons.favorite,
-                                      color: Colors.red,
+                                      color: isPressed
+                                          ? Colors.grey.shade300
+                                          : Colors.red, // ← اللون يتغير
                                     ),
                                   ),
                                 ),
