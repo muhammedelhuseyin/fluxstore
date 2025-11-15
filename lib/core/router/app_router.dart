@@ -1,7 +1,10 @@
+import 'package:fluxstore/Discover/Models/product_models.dart';
 import 'package:fluxstore/Discover/found_results.dart';
 import 'package:fluxstore/Discover/search_screen.dart';
 import 'package:fluxstore/Onboarding/onboarding_screen.dart';
+import 'package:fluxstore/home/models/products_model.dart';
 import 'package:fluxstore/layout/main_layout.dart';
+import 'package:fluxstore/product/product_datelis.dart';
 import 'package:go_router/go_router.dart';
 
 // 🧩 استيراد الصفحات
@@ -46,6 +49,16 @@ class AppRouter {
         path: '/onbording',
         builder: (context, state) =>  OnboardingScreen(),
       ),
+      GoRoute(
+  path: '/productDetails',
+  name: 'productDetails',
+  builder: (context, state) {
+    final product = state.extra as ProductsModel;
+    return ProductDatelis(product: product);
+  },
+),
+
+
     ],
   );
 }

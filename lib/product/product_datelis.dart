@@ -2,30 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:fluxstore/Discover/widgets/custom_back_button.dart';
 import 'package:fluxstore/core/helper/app_images.dart';
 import 'package:fluxstore/core/them/app_styles.dart';
+import 'package:fluxstore/home/models/products_model.dart';
 import 'package:fluxstore/product/data/Similar_product.dart';
 import 'package:gap/gap.dart';
 
 class ProductDatelis extends StatefulWidget {
-  final String title;          // اسم المنتج
-  final double price;          // سعر المنتج
-  final String image;          // صورة المنتج
-  final double rating;         // قيمة النجوم مثل 4.9
-  final int ratingCount;       // عدد التقييمات مثل 63
-  final List<Color> colors;    // الألوان
-  final List<String> sizes;    // المقاسات
-  final String description;    // الوصف
+    final ProductsModel product;
+  const ProductDatelis({super.key,required  this.product});
 
-  const ProductDatelis({
-    super.key,
-    required this.title,
-    required this.price,
-    required this.image,
-    required this.rating,
-    required this.ratingCount,
-    required this.colors,
-    required this.sizes,
-    required this.description,
-  });
+
 
   @override
   State<ProductDatelis> createState() => _ProductFullState();
@@ -94,7 +79,7 @@ class _ProductFullState extends State<ProductDatelis> {
                   left: 0,
                   right: 0,
                   child: Image.asset(
-                    AppImages.det1,
+                   widget.product.image,
                     scale: 5,
                   ),
                 ),
@@ -126,11 +111,13 @@ class _ProductFullState extends State<ProductDatelis> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Sportwear Set",
+                         widget.product.title
+,
                           style: AppStyles.semibold20,
                         ),
                         Text(
-                          "\$ 80.00",
+                          "\$ ${widget.product.price}"
+,
                           style: AppStyles.semibold22,
                         ),
                       ],
@@ -139,13 +126,13 @@ class _ProductFullState extends State<ProductDatelis> {
                     Row(
                       spacing: 2,
                       children: [
-                        ...List.generate(5, (i) {
+                        ...List.generate(widget.product.rating.round(), (i) {
                           return Icon(
                             Icons.star,
                             color: Color(0xff508A7B),
                           );
                         }),
-                        Text("(63)"),
+                        Text("(${widget.product.ratingCount})"),
                       ],
                     ),
                     Gap(20),

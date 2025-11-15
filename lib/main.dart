@@ -25,8 +25,8 @@ class MyApp extends StatelessWidget {
           elevation: 0,
         ),
       ),
-      
-    routerConfig: AppRouter.router,//  ✅ ربط الراوتر
+      ///  ✅ ربط الراوتر
+    routerConfig: AppRouter.router,
 
       debugShowCheckedModeBanner: false,
     );

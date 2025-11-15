@@ -10,6 +10,7 @@ class SimilarProduct {
         price: 43.00,
         rating: 5,
         ratingCount: 72,
+        description: '',
         colors: [],
         sizes: []),
     ProductsModel(
@@ -20,6 +21,7 @@ class SimilarProduct {
         rating: 4.7,
         ratingCount: 87,
         colors: [],
+        description: '',
         sizes: []),
     ProductsModel(
         id: "9",
@@ -28,6 +30,7 @@ class SimilarProduct {
         price: 47.99,
         rating: 3.8,
         ratingCount: 37,
+        description: '',
         colors: [],
         sizes: []),
   ];

@@ -17,24 +17,29 @@ class Categorie {
 }
 
 class ProductsModel {
+  final String id;
   final String title;
+  final String description;
   final double price;
-  final String image; // مسار الصورة من assets
-  final double rating; // مثال: 4.9
-  final int ratingCount; // مثال: 63
-  final List<Color> colors; // الألوان
+  final String image;
+  final double rating;
+  final int ratingCount;
+  final List<Color> colors;
   final List<String> sizes;
 
   ProductsModel({
+    required this.id,
     required this.title,
+    required this.description,
     required this.price,
     required this.image,
     required this.rating,
     required this.ratingCount,
     required this.colors,
     required this.sizes,
-    required String id,
   });
+
+
 
   static List<ProductsModel> homeproduct = [
     ProductsModel(
@@ -45,7 +50,7 @@ class ProductsModel {
         rating: 4,
         ratingCount: 96,
         colors: [],
-        sizes: []),
+        sizes: [], description: ''),
     ProductsModel(
         id: "2",
         image: AppImages.home3,
@@ -54,7 +59,7 @@ class ProductsModel {
         rating: 4.5,
         ratingCount: 44,
         colors: [],
-        sizes: []),
+        sizes: [], description: ''),
     ProductsModel(
         id: "3",
         image: AppImages.home4,
@@ -63,7 +68,7 @@ class ProductsModel {
         rating: 4.2,
         ratingCount: 22,
         colors: [],
-        sizes: []),
+        sizes: [], description: ''),
     ProductsModel(
         id: "4",
         image: AppImages.home5,
@@ -72,6 +77,7 @@ class ProductsModel {
         rating: 3.9,
         ratingCount: 49,
         colors: [],
+        description: '',
         sizes: []),
   ];
 
@@ -84,6 +90,7 @@ class ProductsModel {
         rating: 4,
         ratingCount: 58,
         colors: [],
+        description: '',
         sizes: []),
     ProductsModel(
         id: "6",
@@ -93,6 +100,7 @@ class ProductsModel {
         rating: 5,
         ratingCount: 88,
         colors: [],
+        description: '',
         sizes: []),
   ];
 }
