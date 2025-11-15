@@ -67,5 +67,19 @@ class AppImages {
   static String discover6="assets/images/discover6.png";
   static String discover7="assets/images/discover7.png";
 
+ //FoundResults
+  static String res1="assets/images/res1.png";
+  static String res2="assets/images/res2.png";
+  static String res3="assets/images/res3.png";
+  static String res4="assets/images/res4.png";
+
+// Product Detalis 
+  static String det1="assets/images/det1.png";
+  static String det2="assets/images/muhammed.png";
+  static String det3="assets/images/det3.png";
+  static String det4="assets/images/det4.png";
+  static String det5="assets/images/det5.png";
+
+
 
 }

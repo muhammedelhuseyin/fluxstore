@@ -4,8 +4,8 @@ import 'package:fluxstore/home/models/products_model.dart';
 
 class Poplists {
   static List <ProductsModel> Popularthisweek = [
-    ProductsModel(id: "1", image:AppImages.discover6 , title:"Lihua Tunic White" , price:53.00 ),
-    ProductsModel(id: "2", image:AppImages.discover7 , title:"Skirt Dress" , price:34.00 )
+    ProductsModel(id: "1", image:AppImages.discover6 , title:"Lihua Tunic White" , price:53.00, rating: 4.2, ratingCount: 55, colors: [], sizes: [] ),
+    ProductsModel(id: "2", image:AppImages.discover7 , title:"Skirt Dress" , price:34.00, rating: 3.2, ratingCount: 45, colors: [], sizes: [] )
   ];
   static List<Color> color =[
     Color(0xffCE8722),

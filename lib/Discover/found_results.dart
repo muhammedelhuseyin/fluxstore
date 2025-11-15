@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluxstore/Discover/Models/product_models.dart';
 import 'package:fluxstore/Discover/widgets/custom_back_button.dart';
 import 'package:fluxstore/Discover/widgets/filter_drawer.dart';
 import 'package:fluxstore/Discover/widgets/poplists.dart';
@@ -74,46 +75,55 @@ class _FoundResultsState extends State<FoundResults> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Found \n152 Results",
+                  "Found \n${ProductModel.PopularDresses.length} Results",
                   style: AppStyles.semibold20,
                 ),
-                Container(
-                  height: 40,
-                  width: 97,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                    border: Border.all(color: Colors.grey.shade300, width: 3),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text(
-                        "Filter",
-                        style:
-                            AppStyles.Regular14.copyWith(color: Colors.black),
+                Builder(
+                  builder: (BuildContext context) { 
+                    return GestureDetector(
+                           onTap: () {
+                                Scaffold.of(context)
+                                    .openEndDrawer(); // يفتح الـ Drawer بشكل صحيح
+                              }, 
+                      child: Container(
+                      height: 40,
+                      width: 97,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(25),
+                        border: Border.all(color: Colors.grey.shade300, width: 3),
                       ),
-                      Builder(builder: (context) {
-                        return GestureDetector(
-                            onTap: () {
-                              Scaffold.of(context)
-                                  .openEndDrawer(); // يفتح الـ Drawer بشكل صحيح
-                            },
-                            child: Icon(Icons.arrow_drop_down));
-                      })
-                    ],
-                  ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(
+                            "Filter",
+                            style:
+                                AppStyles.Regular14.copyWith(color: Colors.black),
+                          ),
+                          Icon(Icons.arrow_drop_down)
+                        ],
+                      ),
+                                        ),
+                    );
+                   },
+                 
                 ),
               ],
             ),
             Gap(35),
-            SizedBox(
-              height: 287,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
+            Expanded(
+              child: GridView.builder(
+                shrinkWrap: true,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 25,
+                  crossAxisSpacing: 15,
+                  childAspectRatio: 0.52, // ← هذا المناسب 100%
+                ),
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                itemCount: Poplists.Popularthisweek.length,
+                itemCount: ProductModel.PopularDresses.length,
                 itemBuilder: (context, index) {
-                  final product = Poplists.Popularthisweek[index];
+                  final product = ProductModel.PopularDresses[index];
 
                   return Padding(
                     padding: const EdgeInsets.only(right: 12),
@@ -132,87 +142,97 @@ class _FoundResultsState extends State<FoundResults> {
                                     color: Color(0xffF4F4F4)),
                                 height: 172,
                                 width: 126,
-                                child: Image.asset(product.image),
+                                child: Image.asset(
+                                  product.image,
+                                  height: 210,
+                                  width: double.infinity,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
+
+                              // ♥ زر المفضلة لكل منتج مستقل
                               Positioned(
                                 right: 5,
                                 top: 5,
                                 child: GestureDetector(
                                   onTap: () {
                                     setState(() {
-                                      isPressed = !isPressed;
+                                      product.isFavorite = !product.isFavorite;
                                     });
                                   },
                                   child: Container(
                                     width: 30,
                                     height: 30,
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                       color: Colors.white,
                                       shape: BoxShape.circle,
                                     ),
                                     child: Icon(
                                       Icons.favorite,
-                                      color: isPressed
-                                          ? Colors.grey.shade300
-                                          : Colors.red, // ← اللون يتغير
+                                      color: product.isFavorite
+                                          ? Colors.red
+                                          : Colors.grey.shade300,
                                     ),
                                   ),
                                 ),
                               ),
                             ],
                           ),
+
                           const Gap(14),
+
+                          // اسم المنتج
                           Text(
                             product.title,
                             style: AppStyles.Regular14,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
+
                           const Gap(2),
+
+                          // السعر
+                          product.oldPrice == null
+                              ? Text(
+                                  "\$${product.price.toStringAsFixed(2)}",
+                                  style: AppStyles.semibold16,
+                                )
+                              : Row(
+                                  spacing: 5,
+                                  children: [
+                                    Text(
+                                      "\$${product.price.toStringAsFixed(2)}",
+                                      style: AppStyles.semibold16,
+                                    ),
+                                    Text(
+                                      "\$${product.oldPrice!.toStringAsFixed(2)}",
+                                      style: AppStyles.semibold16.copyWith(
+                                        decoration: TextDecoration.lineThrough,
+                                        decorationColor: Colors.red,
+                                        decorationThickness: 2,
+                                        color: Colors.grey.shade400,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+
+                          const Gap(3),
+
+                          // التقييم + عدد المراجعات
                           Row(
-                            spacing: 5,
                             children: [
-                              Text(
-                                "\$ ${product.price}",
-                                style: AppStyles.semibold16,
-                              ),
-                              Text(
-                                "\$90.00",
-                                style: AppStyles.semibold16.copyWith(
-                                  decoration: TextDecoration.lineThrough,
-                                  decorationColor: Colors.red,
-                                  decorationThickness: 2, // سمك الخط
-                                  color: Colors.grey.shade400, // لون النص
+                              ...List.generate(
+                                5,
+                                (i) => Icon(
+                                  Icons.star,
+                                  size: 13,
+                                  color: i < product.rating.round()
+                                      ? const Color(0xff508A7B)
+                                      : Colors.grey.shade300,
                                 ),
                               ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.star,
-                                size: 13,
-                                color: Color(0xff508A7B),
-                              ),
-                              Icon(
-                                Icons.star,
-                                size: 13,
-                                color: Color(0xff508A7B),
-                              ),
-                              Icon(
-                                Icons.star,
-                                size: 13,
-                                color: Color(0xff508A7B),
-                              ),
-                              Icon(
-                                Icons.star,
-                                size: 13,
-                                color: Color(0xff508A7B),
-                              ),
-                              Icon(
-                                Icons.star,
-                                size: 13,
-                                color: Color(0xff508A7B),
-                              ),
-                              Text("(64)"),
+                              const SizedBox(width: 4),
+                              Text("(${product.reviews})"),
                             ],
                           )
                         ],
