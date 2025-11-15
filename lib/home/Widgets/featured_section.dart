@@ -47,7 +47,8 @@ class FeaturedSection extends StatelessWidget {
                 decoration: const BoxDecoration(color: Color(0xffF4F4F4)),
                 height: 172,
                 width: 126,
-                child: Image.asset(product.image),
+                child: Hero(tag: product.id,
+                child: Image.asset(product.images[0])),
               ),
               const Gap(14),
               Text(

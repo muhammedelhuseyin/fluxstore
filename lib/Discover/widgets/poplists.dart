@@ -6,7 +6,7 @@ class Poplists {
   static List<ProductsModel> Popularthisweek = [
     ProductsModel(
         id: "1",
-        image: AppImages.discover6,
+        images:[ AppImages.discover6],
         title: "Lihua Tunic White",
         price: 53.00,
         rating: 4.2,
@@ -16,7 +16,7 @@ class Poplists {
         sizes: []),
     ProductsModel(
         id: "2",
-        image: AppImages.discover7,
+        images: [AppImages.discover7],
         title: "Skirt Dress",
         price: 34.00,
         rating: 3.2,

@@ -149,7 +149,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                   const BoxDecoration(color: Color(0xffF4F4F4)),
                               height: 172,
                               width: 126,
-                              child: Image.asset(product.image),
+                              child: Image.asset(product.images[index]),
                             ),
                             const Gap(14),
                             Text(

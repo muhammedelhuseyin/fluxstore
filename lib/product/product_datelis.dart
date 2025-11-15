@@ -7,16 +7,16 @@ import 'package:fluxstore/product/data/Similar_product.dart';
 import 'package:gap/gap.dart';
 
 class ProductDatelis extends StatefulWidget {
-    final ProductsModel product;
-  const ProductDatelis({super.key,required  this.product});
-
-
+  final ProductsModel product;
+  const ProductDatelis({super.key, required this.product});
 
   @override
   State<ProductDatelis> createState() => _ProductFullState();
 }
 
 class _ProductFullState extends State<ProductDatelis> {
+  int currentImage = 0;
+
   bool isDescriptionExpanded = false; //متغير حالة من اجل قسم الوصف
   bool isReviewsExpanded = false; //متغير حالة من اجل قسم الوصف
   bool isSimilarExpanded = false;
@@ -37,16 +37,77 @@ class _ProductFullState extends State<ProductDatelis> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       bottomNavigationBar: _buildAddToCart(),
+      bottomNavigationBar: _buildAddToCart(),
       backgroundColor: Color(0xffFFFCFA),
       body: SingleChildScrollView(
         child: Column(
           children: [
             Stack(
+              alignment: Alignment.bottomCenter,
               children: [
                 Container(
                   height: 405,
-                  decoration: BoxDecoration(color: Color(0xffFFFCFA)),
+                  decoration: BoxDecoration(
+                    color: Color(0xffFFFCFA),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      barrierColor:
+                          Colors.black.withOpacity(0.60),
+                      builder: (_) {
+                        return GestureDetector(
+                          onTap: () => Navigator.pop(context),
+                          child: Center(
+                           
+                            child: Container(
+                              padding: EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(
+                                    0.85),
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              child: InteractiveViewer(
+                                clipBehavior: Clip.hardEdge,
+                                minScale: 1,
+                                maxScale: 4,
+                                child: Hero(
+                                  tag: widget.product.id,
+                                  child: Image.asset(
+                                    widget.product.images[currentImage],
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  child: SizedBox(
+                    height: 380,
+                    child: PageView.builder(
+                      itemCount: widget.product.images.length,
+                      onPageChanged: (index) {
+                        setState(() => currentImage = index);
+                      },
+                      itemBuilder: (context, index) {
+                        return Hero(
+                          tag: widget.product.id,
+                          child: IgnorePointer(
+                         
+                            child: Image.asset(
+                              widget.product.images[index],
+                              fit: BoxFit.contain,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
                 ),
                 Positioned(
                   top: 55,
@@ -60,6 +121,8 @@ class _ProductFullState extends State<ProductDatelis> {
                     width: 30,
                     height: 30,
                     decoration: const BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black,
@@ -68,22 +131,26 @@ class _ProductFullState extends State<ProductDatelis> {
                           offset: Offset(1, 1),
                         ),
                       ],
-                      color: Colors.white,
-                      shape: BoxShape.circle,
                     ),
                     child: Icon(Icons.favorite, color: Colors.red),
                   ),
                 ),
-                Positioned(
-                  top: -22,
-                  left: 0,
-                  right: 0,
-                  child: Image.asset(
-                   widget.product.image,
-                    scale: 5,
-                  ),
-                ),
               ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(widget.product.images.length, (i) {
+                return Container(
+                  margin: EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+                  width: currentImage == i ? 13 : 10,
+                  height: currentImage == i ? 13 : 10,
+                  decoration: BoxDecoration(
+                    color:
+                        currentImage == i ? Colors.black : Colors.red.shade300,
+                    shape: BoxShape.circle,
+                  ),
+                );
+              }),
             ),
             Container(
               //height: 200,
@@ -98,8 +165,8 @@ class _ProductFullState extends State<ProductDatelis> {
                   ],
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(18),
-                    topRight: Radius.circular(18),
+                    topLeft: Radius.circular(25),
+                    topRight: Radius.circular(25),
                   )),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 32),
@@ -111,13 +178,11 @@ class _ProductFullState extends State<ProductDatelis> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                         widget.product.title
-,
+                          widget.product.title,
                           style: AppStyles.semibold20,
                         ),
                         Text(
-                          "\$ ${widget.product.price}"
-,
+                          "\$ ${widget.product.price}",
                           style: AppStyles.semibold22,
                         ),
                       ],
@@ -141,8 +206,9 @@ class _ProductFullState extends State<ProductDatelis> {
                     ),
                     Gap(10),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        // ⬅ Section Color
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -189,43 +255,64 @@ class _ProductFullState extends State<ProductDatelis> {
                             )
                           ],
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Size",
-                              style: AppStyles.Regular14,
-                            ),
-                            Row(
-                              children: List.generate(sizes.length, (i) {
-                                return GestureDetector(
-                                  onTap: () => setState(() => selectedSize = i),
-                                  child: Container(
-                                    margin: EdgeInsets.only(right: 12),
-                                    padding: EdgeInsets.all(12),
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: selectedSize == i
-                                          ? Colors.black
-                                          : Colors.grey.shade200,
-                                    ),
-                                    child: Text(
-                                      sizes[i],
-                                      style: TextStyle(
-                                        color: selectedSize == i
-                                            ? Colors.white
-                                            : Colors.black,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
+
+                        // ⬅ الديفيدر العامودي
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 16),
+                          width: 3,
+                          height: 65,
+                          color: Colors.grey.shade300,
+                        ),
+
+                        // ⬅ Section Size
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Size", style: AppStyles.Regular14),
+                              SizedBox(height: 10),
+                              SizedBox(
+                                height: 40,
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(
+                                    children: List.generate(
+                                        widget.product.sizes.length, (i) {
+                                      return GestureDetector(
+                                        onTap: () =>
+                                            setState(() => selectedSize = i),
+                                        child: Container(
+                                          margin: EdgeInsets.only(right: 12),
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 18, vertical: 10),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(30),
+                                            color: selectedSize == i
+                                                ? Colors.black
+                                                : Colors.grey.shade200,
+                                          ),
+                                          child: Text(
+                                            widget.product.sizes[i],
+                                            style: TextStyle(
+                                              color: selectedSize == i
+                                                  ? Colors.white
+                                                  : Colors.black,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    }),
                                   ),
-                                );
-                              }),
-                            ),
-                          ],
-                        )
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
+
                     Gap(10),
                     Divider(
                       color: Colors.grey.shade300,
@@ -247,8 +334,6 @@ class _ProductFullState extends State<ProductDatelis> {
                               style: AppStyles.semibold20,
                             ),
                             Gap(10),
-                         
-
                             // السهم اللي بيدور
                             AnimatedRotation(
                               turns: isDescriptionExpanded
@@ -268,9 +353,7 @@ class _ProductFullState extends State<ProductDatelis> {
                           ? Padding(
                               padding: const EdgeInsets.only(bottom: 16),
                               child: Text(
-                                "Sportswear is no longer under culture, it is no longer indie or "
-                                "cobbled together as it once was. Sport is fashion today. "
-                                "The top is oversized in fit and style, may need to size down.",
+                                widget.product.description,
                                 style: AppStyles.Regular14.copyWith(
                                     color: Colors.grey.shade700),
                               ),
@@ -294,7 +377,6 @@ class _ProductFullState extends State<ProductDatelis> {
                               style: AppStyles.semibold20,
                             ),
                             Gap(10),
-                           
 
                             // السهم اللي بيدور
                             AnimatedRotation(
@@ -315,9 +397,6 @@ class _ProductFullState extends State<ProductDatelis> {
                           : SizedBox.shrink(),
                     ),
 
-
-
-
                     //        Similar Product
                     GestureDetector(
                       onTap: () {
@@ -336,7 +415,6 @@ class _ProductFullState extends State<ProductDatelis> {
                               style: AppStyles.semibold20,
                             ),
                             Gap(10),
-                           
 
                             // السهم اللي بيدور
                             AnimatedRotation(
@@ -354,53 +432,56 @@ class _ProductFullState extends State<ProductDatelis> {
                       duration: const Duration(milliseconds: 300),
                       curve: Curves.easeInOut,
                       child: isSimilarExpanded
-                          ?  SizedBox(
-                      height: 227,
-                      child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: SimilarProduct.similarProduct.length,
-                          itemBuilder: (context, i) {
-                            final product = SimilarProduct.similarProduct[i];
-                            return Padding(
-                              padding: const EdgeInsets.only(right: 12),
-                              child: ClipRRect(
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(25),
-                                  topRight: Radius.circular(25),
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      decoration: const BoxDecoration(
-                                          color: Color(0xffF4F4F4)),
-                                      height: 172,
-                                      width: 126,
-                                      child: Image.asset(product.image),
-                                    ),
-                                    const Gap(14),
-                                    Text(
-                                      product.title,
-                                      style: AppStyles.Regular14,
-                                    ),
-                                    const Gap(2),
-                                    Text(
-                                      "\$ ${product.price}",
-                                      style: AppStyles.semibold16,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            );
-                          }),
-                    )
+                          ? SizedBox(
+                              height: 227,
+                              child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount:
+                                      SimilarProduct.similarProduct.length,
+                                  itemBuilder: (context, i) {
+                                    final product =
+                                        SimilarProduct.similarProduct[i];
+                                    return Padding(
+                                      padding: const EdgeInsets.only(right: 12),
+                                      child: ClipRRect(
+                                        borderRadius: const BorderRadius.only(
+                                          topLeft: Radius.circular(25),
+                                          topRight: Radius.circular(25),
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              decoration: const BoxDecoration(
+                                                  color: Color(0xffF4F4F4)),
+                                              height: 172,
+                                              width: 126,
+                                              child: Image.asset(
+                                                  product.images[0]),
+                                            ),
+                                            const Gap(14),
+                                            Text(
+                                              product.title,
+                                              style: AppStyles.Regular14,
+                                            ),
+                                            const Gap(2),
+                                            Text(
+                                              "\$ ${product.price}",
+                                              style: AppStyles.semibold16,
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  }),
+                            )
                           : const SizedBox.shrink(),
                     ),
                     Divider(
                       color: Colors.grey.shade300,
                     ),
-                   
-                   
+
                     Gap(30),
                   ],
                 ),
@@ -423,7 +504,7 @@ class _ProductFullState extends State<ProductDatelis> {
           children: [
             Column(
               children: [
-                Text("4.9",
+                Text("${widget.product.rating}",
                     style:
                         TextStyle(fontSize: 50, fontWeight: FontWeight.bold)),
                 Text("OUT OF 5",
@@ -442,7 +523,8 @@ class _ProductFullState extends State<ProductDatelis> {
                   }),
                 ),
                 const SizedBox(height: 4),
-                Text("83 ratings", style: TextStyle(color: Colors.grey)),
+                Text("(${widget.product.ratingCount} ratings)",
+                    style: TextStyle(color: Colors.grey)),
               ],
             ),
           ],
@@ -571,31 +653,31 @@ class _ProductFullState extends State<ProductDatelis> {
     );
   }
 
-Widget _buildAddToCart() {
-  return Container(
-    padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 32),
-    decoration: const BoxDecoration(
-      color: Colors.black,
-      borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(20),
-        topRight: Radius.circular(20),
-      ),
-    ),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(Icons.shopping_bag, color: Colors.white),
-        SizedBox(width: 12),
-        Text(
-          "Add To Cart",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
+  Widget _buildAddToCart() {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 32),
+      decoration: const BoxDecoration(
+        color: Colors.black,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
         ),
-      ],
-    ),
-  );
-}
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.shopping_bag, color: Colors.white),
+          SizedBox(width: 12),
+          Text(
+            "Add To Cart",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }

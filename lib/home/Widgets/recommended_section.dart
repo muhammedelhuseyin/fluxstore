@@ -42,7 +42,7 @@ class RecommendedSection extends StatelessWidget {
                 child: Row(
                   spacing: 5,
                   children: [
-                    Image.asset(product.image),
+                    Image.asset(product.images[0]),
                     Column(
                       spacing: 3,
                       mainAxisAlignment: MainAxisAlignment.center,
