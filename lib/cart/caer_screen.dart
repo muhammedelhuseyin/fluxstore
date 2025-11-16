@@ -184,14 +184,19 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
       ),
       child: Row(
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(14),
-            child: Container(
-              width: 90,
-              height: 90,
-              color: const Color(0xffF4F4F4),
-              padding: const EdgeInsets.all(4),
-              child: Image.asset(item["image"], fit: BoxFit.contain),
+          GestureDetector(
+            onTap: () {
+    context.push("/product_from_cart", extra: item);
+  },
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(14),
+              child: Container(
+                width: 90,
+                height: 90,
+                color: const Color(0xffF4F4F4),
+                padding: const EdgeInsets.all(4),
+                child: Image.asset(item["image"], fit: BoxFit.contain),
+              ),
             ),
           ),
           const SizedBox(width: 12),
@@ -214,7 +219,7 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
                     GestureDetector(
                       onTap: () async {
                         final removedItem = cart.cartItems[index];
-
+    
                         final confirm = await showConfirmDialog(
                           context: context,
                           title: "Remove item?",
@@ -227,7 +232,7 @@ class _CartScreenState extends State<CartScreen> with TickerProviderStateMixin {
                             setState(() {});
                           },
                         );
-
+    
                         if (confirm == true) {
                           _isDeleted[index] = true;
                           setState(() {});

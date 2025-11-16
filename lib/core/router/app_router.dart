@@ -1,4 +1,4 @@
-import 'package:fluxstore/Discover/Models/product_models.dart';
+import 'package:flutter/material.dart';
 import 'package:fluxstore/Discover/found_results.dart';
 import 'package:fluxstore/Discover/search_screen.dart';
 import 'package:fluxstore/Onboarding/onboarding_screen.dart';
@@ -57,6 +57,27 @@ class AppRouter {
     return ProductDatelis(product: product);
   },
 ),
+GoRoute(
+  path: "/product_from_cart",
+  builder: (context, state) {
+    final data = state.extra as Map<String, dynamic>;
+
+    final product = ProductsModel(
+      id: data["id"],
+      title: data["title"],
+      price: data["price"],
+      images: [data["image"]],
+      colors: [Color(data["color"])],
+      sizes: [data["size"]],
+      description: data["description"] ?? "",
+      rating: data["rating"] ?? 0.0,
+      ratingCount: data["ratingCount"] ?? 0,
+    );
+
+    return ProductDatelis(product: product);
+  },
+)
+
 
 
     ],
