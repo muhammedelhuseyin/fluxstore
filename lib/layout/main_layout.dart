@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluxstore/Discover/discover_screen.dart';
+import 'package:fluxstore/cart/caer_screen.dart';
 import 'package:fluxstore/home/home_screen.dart';
 
 class MainLayout extends StatefulWidget {
@@ -14,7 +15,7 @@ class _MainLayoutState extends State<MainLayout> {
       final List<Widget> screens = [
       const HomeScreen(),
       const DiscoverScreen(),
-      const Center(child: Text("Cart Page")),
+      const CartScreen(),
       const Center(child: Text("Profile Page")),
 
     ];

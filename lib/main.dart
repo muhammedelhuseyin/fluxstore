@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:fluxstore/Discover/found_results.dart';
+import 'package:fluxstore/cart/service/cart_service.dart';
 
 import 'package:fluxstore/core/router/app_router.dart';
 
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await CartService().loadCart();
+
   runApp(const MyApp());
 }
 

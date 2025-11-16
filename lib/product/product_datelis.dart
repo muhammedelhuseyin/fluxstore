@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluxstore/Discover/widgets/custom_back_button.dart';
+import 'package:fluxstore/cart/service/cart_service.dart';
 import 'package:fluxstore/core/helper/app_images.dart';
 import 'package:fluxstore/core/them/app_styles.dart';
 import 'package:fluxstore/home/models/products_model.dart';
@@ -23,16 +24,7 @@ class _ProductFullState extends State<ProductDatelis> {
   int selectedColor = 0;
   int selectedSize = 0; // أو خليها -1 لو بدك بدون اختيار مبدئي
 
-  List<Color> colors = [
-    Color(0xffE2C7B7),
-    Colors.black,
-    Color(0xffFF6B6B),
-  ];
-  List<String> sizes = [
-    "S",
-    "M",
-    "L",
-  ];
+
 
   @override
   Widget build(BuildContext context) {
@@ -55,18 +47,15 @@ class _ProductFullState extends State<ProductDatelis> {
                   onTap: () {
                     showDialog(
                       context: context,
-                      barrierColor:
-                          Colors.black.withOpacity(0.60),
+                      barrierColor: Colors.black.withOpacity(0.60),
                       builder: (_) {
                         return GestureDetector(
                           onTap: () => Navigator.pop(context),
                           child: Center(
-                           
                             child: Container(
                               padding: EdgeInsets.all(12),
                               decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(
-                                    0.85),
+                                color: Colors.white.withOpacity(0.85),
                                 borderRadius: BorderRadius.circular(16),
                               ),
                               child: InteractiveViewer(
@@ -98,7 +87,6 @@ class _ProductFullState extends State<ProductDatelis> {
                         return Hero(
                           tag: widget.product.id,
                           child: IgnorePointer(
-                         
                             child: Image.asset(
                               widget.product.images[index],
                               fit: BoxFit.contain,
@@ -218,7 +206,7 @@ class _ProductFullState extends State<ProductDatelis> {
                             ),
                             Gap(10),
                             Row(
-                              children: List.generate(colors.length, (i) {
+                              children: List.generate(widget.product.colors.length, (i) {
                                 return GestureDetector(
                                   onTap: () =>
                                       setState(() => selectedColor = i),
@@ -247,7 +235,7 @@ class _ProductFullState extends State<ProductDatelis> {
                                     ),
                                     child: CircleAvatar(
                                       radius: 12,
-                                      backgroundColor: colors[i],
+                                      backgroundColor: widget.product.colors[i],
                                     ),
                                   ),
                                 );
@@ -654,29 +642,45 @@ class _ProductFullState extends State<ProductDatelis> {
   }
 
   Widget _buildAddToCart() {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 32),
-      decoration: const BoxDecoration(
-        color: Colors.black,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
-        ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.shopping_bag, color: Colors.white),
-          SizedBox(width: 12),
-          Text(
-            "Add To Cart",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
+    return GestureDetector(
+      onTap: () async {
+        await CartService().addToCart(
+          product: widget.product,
+          size: widget.product.sizes[selectedSize],
+          color: widget.product.colors[selectedColor],
+        );
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Added to cart ✓"),
+            duration: Duration(seconds: 2),
           ),
-        ],
+        );
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 32),
+        decoration: const BoxDecoration(
+          color: Colors.black,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.shopping_bag, color: Colors.white),
+            SizedBox(width: 12),
+            Text(
+              "Add To Cart",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
